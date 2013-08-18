@@ -1,0 +1,8 @@
+extend layout
+block content
+	.hello
+		| hello
+	ul
+		each article in data
+			p
+				a(href=article.url,style="width:100%;")= article.title
