@@ -2,7 +2,26 @@ extend layout
 block content
 	.hello
 		| hello
-	ul
-		each article in data
+	ul.article_list()
+		each article,i in urls
 			p
-				a(href=article.url,style="width:100%;")= article.title
+				a(href=article.url,style="width:100%;",id="article_"+i)= article.title
+	a.btn.btn-blue.previous Previous
+	a.btn.btn-blue.next Next
+	p.first
+	script
+		$(function(){
+		var firsturl = $('.article_list #article_0').attr('href');
+		console.log(firsturl);
+		$.ajax({
+			url:'/gethtml/0',
+			data:{url:firsturl},
+			type:'post',
+			success:function(data){
+				console.log(data);
+				$('.first').append(data.htmldata)
+			}
+
+
+			})
+		})

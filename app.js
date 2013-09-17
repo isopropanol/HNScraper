@@ -2,6 +2,7 @@
 
 
 //Module dependencies
+var cheerio = require('cheerio')
 var scrapper = require('./scraper.js')
 var express = require('express')
 	, stylus = require('stylus')
@@ -23,15 +24,29 @@ app.use(stylus.middleware(
 app.use(express.static(__dirname+'/public'));
 
 app.get('/',function(req,res,next){
-	scrapper('http://news.ycombinator.com',function(err,result){
+	var bodys = [];
+	scrapper(false,'http://news.ycombinator.com',function(err,result){
 		if (err){
 			return next(err);
+		}else{
+			res.render('index',
+			{title:"HN Top 30", urls:result})
 		}
-		console.log(result);
-		res.render('index',
-		{title:"Hoos Working Where", data:result})
+		})
+		
+		
+});
+app.post('/gethtml/0',function(req,res,next){
+	url = req.body.url;
+	scrapper(true,url,function(err,resultbod){
+			$ = cheerio.load(resultbod);
+			justbody = $('body').html();
+			console.log(justbody);
+			console.log('done loading first');
+			res.send({htmldata:justbody});
 	});
-	
-})
+});
+
+
 
 app.listen(3001);
