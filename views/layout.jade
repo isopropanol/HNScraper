@@ -8,5 +8,21 @@ html
 		
 	body
 		.container
+			nav.navbar.navbar-default.navbar-fixed-top
+				.navbar-header(style="margin:0 auto;")
+					.container
+						ul.nav.navbar-nav.pull-right
+							a.btn.btn-info.previous-hn Previous
+							
+							li.ladengif(style="display:none;")
+								img(src="images/loader.gif")
+							a.btn.btn-primary.next-hn Next
+						ul.nav.navbar-nav(style="")
+							li.title-for-HN
+								a HN Scraper
+						
+		.container
+
 			.main-content
+
 				block content

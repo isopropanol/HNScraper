@@ -6,25 +6,34 @@ block content
 		each article,i in urls
 			p
 				a(href=article.url,style="width:100%;",id="article_"+i)= article.title
-	a.btn.btn-info.previous-hn Previous
-	a.btn.btn-primary.next-hn Next
-	a.btn.btn-warning.next-hn-2 Skip by 1
+	
 	p.article_holder
 	script
 		$(function(){
 		
 		function loader(urlNum){
 			if(urlNum > -1 && urlNum<30){
-			$('.article_holder').empty()
+			$('.article_holder').empty();
+			$('.tempCSS').remove();
 			var url = $('.article_list #article_'+urlNum).attr('href');
+			var title = $('.article_list #article_'+urlNum).text();
+			$('.ladengif').show()
+			$('.title-for-HN').text(title);
 			$.ajax({
-				url:'/gethtml/0',
+				url:'/gethtml',
 				data:{url:url},
 				type:'post',
 				success:function(data){
-					console.log(data);
+					//console.log(data);
+					
+					$.each(data.css, function(i,link){
+						$('head').append('<link class="tempCSS" href="'+link+'" rel="stylesheet">');
+					})
 					$('.article_holder').append(data.htmldata)
+						
 					$('.modal-backdrop').hide();
+					$('.ladengif').hide();
+					
 				}
 
 
@@ -37,11 +46,7 @@ block content
 			currenturl++;
 			loader(currenturl);
 		});
-		$('body').delegate('.next-hn-2','click',function(){
-			currenturl++;
-			currenturl++;
-			loader(currenturl);
-		});
+		
 		$('body').delegate('.previous-hn','click',function(){
 			currenturl--;
 			loader(currenturl);
