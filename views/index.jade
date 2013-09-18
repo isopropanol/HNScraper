@@ -18,21 +18,21 @@ block content
 			var url = $('.article_list #article_'+urlNum).attr('href');
 			var title = $('.article_list #article_'+urlNum).text();
 			$('.ladengif').show()
-			$('.title-for-HN').text(title);
+			$('.title-for-HN a').text(title);
+			$('.title-for-HN a').attr('href',url);
 			$.ajax({
 				url:'/gethtml',
 				data:{url:url},
 				type:'post',
 				success:function(data){
-					//console.log(data);
-					
+					$('.ladengif').hide();
 					$.each(data.css, function(i,link){
 						$('head').append('<link class="tempCSS" href="'+link+'" rel="stylesheet">');
 					})
 					$('.article_holder').append(data.htmldata)
 						
 					$('.modal-backdrop').hide();
-					$('.ladengif').hide();
+					
 					
 				}
 

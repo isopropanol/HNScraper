@@ -44,9 +44,11 @@ app.post('/gethtml',function(req,res,next){
 			$('body').find('script').empty(); //remove nasty scripts
 			var csslinks = [];
 			$('link').each(function(i, element){
-				thislink =  $(this).attr('href');
-				parsedlink = thislink.split('.')
-				if(parsedlink[parsedlink.length-1] == 'css'){
+				var thislink =  $(this).attr('href');
+				var parsedlink = thislink.split('.')
+				var relvar = $(this).attr('rel');
+				console.log(relvar);
+				if(relvar == 'stylesheet'){
 					if(urlparse.parse(thislink).protocol){
 						csslinks.push(thislink)
 					}
