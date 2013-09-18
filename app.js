@@ -40,6 +40,7 @@ app.post('/gethtml/0',function(req,res,next){
 	url = req.body.url;
 	scrapper(true,url,function(err,resultbod){
 			$ = cheerio.load(resultbod);
+			$('body').find('script').empty();
 			justbody = $('body').html();
 			//console.log(justbody);
 			console.log('done loading article');
