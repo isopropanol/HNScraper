@@ -1,27 +1,49 @@
 extend layout
 block content
 	.hello
-		| hello
-	ul.article_list()
+		| hello Welcome to HN scraper
+	ul.article_list(style="display:none;")
 		each article,i in urls
 			p
 				a(href=article.url,style="width:100%;",id="article_"+i)= article.title
-	a.btn.btn-blue.previous Previous
-	a.btn.btn-blue.next Next
-	p.first
+	a.btn.btn-info.previous-hn Previous
+	a.btn.btn-primary.next-hn Next
+	a.btn.btn-warning.next-hn-2 Skip by 1
+	p.article_holder
 	script
 		$(function(){
-		var firsturl = $('.article_list #article_0').attr('href');
-		console.log(firsturl);
-		$.ajax({
-			url:'/gethtml/0',
-			data:{url:firsturl},
-			type:'post',
-			success:function(data){
-				console.log(data);
-				$('.first').append(data.htmldata)
+		
+		function loader(urlNum){
+			if(urlNum > -1 && urlNum<30){
+			$('.article_holder').empty()
+			var url = $('.article_list #article_'+urlNum).attr('href');
+			$.ajax({
+				url:'/gethtml/0',
+				data:{url:url},
+				type:'post',
+				success:function(data){
+					console.log(data);
+					$('.article_holder').append(data.htmldata)
+					$('.modal-backdrop').hide();
+				}
+
+
+				})
 			}
-
-
-			})
+		}
+		var currenturl = 0;
+		loader(currenturl);
+		$('body').delegate('.next-hn','click',function(){
+			currenturl++;
+			loader(currenturl);
+		});
+		$('body').delegate('.next-hn-2','click',function(){
+			currenturl++;
+			currenturl++;
+			loader(currenturl);
+		});
+		$('body').delegate('.previous-hn','click',function(){
+			currenturl--;
+			loader(currenturl);
+		});
 		})

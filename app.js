@@ -41,8 +41,8 @@ app.post('/gethtml/0',function(req,res,next){
 	scrapper(true,url,function(err,resultbod){
 			$ = cheerio.load(resultbod);
 			justbody = $('body').html();
-			console.log(justbody);
-			console.log('done loading first');
+			//console.log(justbody);
+			console.log('done loading article');
 			res.send({htmldata:justbody});
 	});
 });
