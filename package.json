@@ -8,7 +8,7 @@
     "stylus": "*",
     "nib": "*",
     "node.io":"*",
-    "cheerio-select":"*"
+    "cheerio":"*"
   },
    "engines": {
     "node": "0.10.x",

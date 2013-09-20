@@ -78,6 +78,8 @@ app.post('/gethtml',function(req,res,next){
 	});
 });
 
+var port = process.env.PORT || 3001;
 
-
-app.listen(3001);
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
