@@ -41,8 +41,9 @@ app.post('/gethtml',function(req,res,next){
 	parsedUrl = urlparse.parse(url);
 	scrapper(true,url,function(err,resultbod){
 			$ = cheerio.load(resultbod);
-			$('body').find('script').empty(); //remove nasty scripts
+			$('html').find('script').empty(); //remove nasty scripts
 			var csslinks = [];
+			var cssstyles = [];
 			$('link').each(function(i, element){
 				var thislink =  $(this).attr('href');
 				var parsedlink = thislink.split('.')
@@ -52,20 +53,28 @@ app.post('/gethtml',function(req,res,next){
 					if(urlparse.parse(thislink).protocol){
 						csslinks.push(thislink)
 					}
+					else if(thislink.substring(0,2) == '//'){
+						csslinks.push(parsedUrl.protocol+thislink);
+					}
 					else{
 						csslinks.push(parsedUrl.protocol+'//'+parsedUrl.host+thislink);
 					}
 
 				}
 			})
+			$('style').each(function(i, element){
+				var thisstyle =  $(this).text();
+				cssstyles.push(thisstyle);
+				
+			})
 			//$('a').each(function(i,element){
 				//console.log($(this).attr('href'));
 				//})
-			justbody = $('body').html();
+			var justbody = $('body').html();
 			//console.log(justbody);
 			console.log('done loading article');
 			console.log(csslinks);
-			res.send({htmldata:justbody,css:csslinks});
+			res.send({htmldata:justbody,css:csslinks,style:cssstyles});
 	});
 });
 
