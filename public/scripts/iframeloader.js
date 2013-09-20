@@ -36,9 +36,10 @@ $(function(){
 				},
 				complete:function(){
 					setTimeout(function(){
-						document.getElementById('iframe_'+urlNum).style.height = document.getElementById('iframe_'+urlNum).contentWindow.document.body.offsetHeight + 'px';
-						console.log(document.getElementById('iframe_'+urlNum).contentWindow.document.body.offsetHeight + 'px');
+						document.getElementById('iframe_'+urlNum).style.height = document.getElementById('iframe_'+urlNum).contentWindow.document.body.offsetHeight+50 + 'px';
+						console.log(document.getElementById('iframe_'+urlNum).contentWindow.document.body.offsetHeight+50 + 'px');
 					},50)
+					
 						
 					
 					

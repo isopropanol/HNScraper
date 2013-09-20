@@ -3,7 +3,7 @@
 
 //Module dependencies
 var cheerio = require('cheerio') //html parser using jquery syntax
-var scrapper = require('./scraper.js') //where the 'scrapper' funciton is
+var scrapper = require('./scraper.js') //where the 'scrapper' function is
 var urlparse = require('url');
 var express = require('express')
 	, stylus = require('stylus')
@@ -24,7 +24,7 @@ app.use(stylus.middleware(
 }));
 app.use(express.static(__dirname+'/public'));
 
-app.get('/',function(req,res,next){
+app.get('/',function(req,res){
 	scrapper(false,'http://news.ycombinator.com',function(err,result){
 		if (err){
 			return next(err);
@@ -36,7 +36,7 @@ app.get('/',function(req,res,next){
 		
 		
 });
-app.post('/gethtml',function(req,res,next){
+app.post('/gethtml',function(req,res){
 	url = req.body.url; //grab the url to be scraped
 	parsedUrl = urlparse.parse(url);
 	scrapper(true,url,function(err,resultbod){
