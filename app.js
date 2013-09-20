@@ -41,7 +41,7 @@ app.post('/gethtml',function(req,res,next){
 	parsedUrl = urlparse.parse(url);
 	scrapper(true,url,function(err,resultbod){
 			$ = cheerio.load(resultbod);
-			$('html').find('script').empty(); //remove nasty scripts
+			$('html').find('script').remove(); //remove nasty scripts
 			var csslinks = [];
 			var cssstyles = [];
 			$('link').each(function(i, element){
