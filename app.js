@@ -23,7 +23,11 @@ app.use(stylus.middleware(
 	, compile:compile
 }));
 app.use(express.static(__dirname+'/public'));
-
+app.all('/', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
 app.get('/',function(req,res){
 	scrapper(false,'http://news.ycombinator.com',function(err,result){
 		if (err){
@@ -76,6 +80,42 @@ app.post('/gethtml',function(req,res){
 			console.log(csslinks);
 			res.send({htmldata:justbody,css:csslinks,style:cssstyles});
 	});
+});
+
+app.get('/datadog/dog.json',function(req,res){
+	scrapper(false,'http://news.ycombinator.com',function(err,result){
+		if (err){
+			return next(err);
+		}else{
+			console.log('this is a request');
+			res.send(result); //this is the basic list of the first 30 urls, hidden but rendered in the dom
+		}
+		})
+		
+		
+});
+app.get('/data/dog.json',function(req,res){
+	scrapper(false,'http://news.ycombinator.com',function(err,result){
+		if (err){
+			return next(err);
+		}else{
+			console.log('a request!');
+			 res.header("Access-Control-Allow-Origin", "*");
+  			res.header("Access-Control-Allow-Headers", "X-Requested-With");
+			res.send([{
+    "dog_id": 1,
+    "name": "First dog",
+    "description": "This is awesome."
+  },
+  {
+    "dog_id": 2,
+    "name": "Second dog",
+    "description": "This is also okay."
+  }]); //this is the basic list of the first 30 urls, hidden but rendered in the dom
+		}
+		})
+		
+		
 });
 
 var port = process.env.PORT || 3001;

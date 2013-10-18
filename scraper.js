@@ -20,7 +20,7 @@ module.exports = function(isBody,url,callback){
 			});
 			for (var i = 0;i<urls.length;i++){
 
-				stories.push({url:urls[i],title:titles[i],body:''});
+				stories.push({url:urls[i],title:titles[i],body:'',dog_id:i});
 			}
 			this.emit(stories);
 			});
